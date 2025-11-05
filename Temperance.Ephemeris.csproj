@@ -5,11 +5,11 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Temperance</Authors>
 		<Company>Temperance</Company>
 		<Description>Core Data Models</Description>
-		<PackageId>Temperance.Hermes</PackageId>
+		<PackageId>Temperance.Ephemeris</PackageId>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/tommyturk/Temperance.Ephemeris.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
