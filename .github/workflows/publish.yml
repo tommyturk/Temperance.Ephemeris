@@ -1,0 +1,36 @@
+name: Publish Temperance.Ephemeris to GitHub Packages
+
+# This tells the action to run ONLY when you push a new tag
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+' # Runs on tags like v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Give the job permission to write to packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+          
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack --configuration Release --no-build -o ./nupkg
+
+      - name: Publish to GitHub Packages
+        # This publishes the package to your private feed
+        run: dotnet nuget push "./nupkg/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/tommyturk" --skip-duplicate

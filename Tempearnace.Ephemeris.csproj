@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include=".github\workflows\publish.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Agora\" />
+    <Folder Include="Models\Constellations\" />
+    <Folder Include="Models\Indicators\" />
+    <Folder Include="Models\TechnicalIndicator\" />
+    <Folder Include="Models\Trading\" />
+  </ItemGroup>
+
+</Project>
