@@ -3,35 +3,52 @@ name: Publish Temperance.Ephemeris to GitHub Packages
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+' # Runs on tags like v1.0.0, v1.0.1, etc.
+      - 'v[0-9]+.[0-9]+.[0-9]+' # Matches tags like v1.0.0, v1.2.3
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write # Give the job permission to write to packages
+      packages: write # Necessary to publish the NuGet package
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
+      # 1. Extract Version from Tag
+      - name: Get package version from Git tag
+        id: get_version
+        run: echo "PACKAGE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        # Example: GITHUB_REF is 'refs/tags/v1.0.0', PACKAGE_VERSION becomes '1.0.0'
 
-      - name: Setup .NET
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x' # Use .NET 9
+          dotnet-version: '9.0.x'
+          # Set up the credentials for pushing/restoring from GitHub Packages
           source-url: https://nuget.pkg.github.com/tommyturk/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Restore dependencies
-        run: dotnet restore Temperance.Ephemeris.sln # Use your .sln file name
-
+        # Target the solution or project explicitly if you have many
+        run: dotnet restore
+      
       - name: Build
-        run: dotnet build Temperance.Ephemeris.sln --configuration Release --no-restore
+        # Ensure the build is clean before packaging
+        run: dotnet build --configuration Release --no-restore
+      
+      # 2. Pack and Apply Version
+      - name: Pack Temperance.Ephemeris
+        run: |
+          dotnet pack Temperance.Ephemeris.csproj \
+            --configuration Release \
+            --no-build \
+            -p:Version=${{ steps.get_version.outputs.PACKAGE_VERSION }} \
+            -o ./nupkg
 
-      - name: Pack
-        run: dotnet pack Temperance.Ephemeris.sln --configuration Release --no-build -o ./nupkg
-
+      # 3. Publish to GitHub Packages
       - name: Publish to GitHub Packages
-        run: dotnet nuget push "./nupkg/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+        # The API key is not needed if 'source-url' and 'NUGET_AUTH_TOKEN' are configured in setup-dotnet
+        run: dotnet nuget push "./nupkg/*.nupkg" --skip-duplicate
