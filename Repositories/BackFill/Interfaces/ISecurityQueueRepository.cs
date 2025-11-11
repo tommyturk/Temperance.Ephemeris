@@ -1,6 +1,7 @@
 ﻿namespace Temperance.Ephemeris.Repositories.BackFill.Interfaces
 {
-    internal interface ISecurityQueueRepository
+    public interface ISecurityQueueRepository
     {
+        Task<bool> SecurityDataCheck(string symbol, string interval, DateTime startDate);
     }
 }

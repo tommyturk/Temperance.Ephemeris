@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using System;
-namespace Temperance.Utilities.Extensions
+namespace Temperance.Ephemeris.Utilities.Extensions
 {
     public static class DecimalExtensions
     {

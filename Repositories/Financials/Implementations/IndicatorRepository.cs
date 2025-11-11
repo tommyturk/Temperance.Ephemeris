@@ -2,10 +2,11 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using System.Data;
-using Temperance.Delphi.Models.Indicators;
-using Temperance.Utilities.Common;
+using Temperance.Ephemeris.Repositories.Financials.Interfaces;
+using Temperance.Ephemeris. Models.Indicators;
+using Temperance.Ephemeris.Utilities.Common;
 
-namespace Temperance.Ephemeris.Repositories_Old.IndicatorRepository
+namespace Temperance.Ephemeris.Repositories.Financials.Implementations
 {
     public class IndicatorRepository : IIndicatorRepository
     {
@@ -19,7 +20,7 @@ namespace Temperance.Ephemeris.Repositories_Old.IndicatorRepository
         }
         private IDbConnection CreateConnection() => new SqlConnection(_connectionString);
 
-        private async Task<bool> BackfillIndicatorAsync<T>(T indicatorData, string tableName) where T : IndicatorsBaseModel
+        private async Task<bool> BackfillIndicatorAsync<T>(T indicatorData, string tableName) where T : IndicatorBaseModel
         {
             if (indicatorData?.Data == null || !indicatorData.Data.Any())
             {

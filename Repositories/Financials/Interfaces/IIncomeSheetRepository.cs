@@ -1,6 +1,6 @@
-﻿using Temperance.Delphi.Models.Securities.IncomeSheet;
+﻿using Temperance.Ephemeris.Models.Financials;
 
-namespace Temperance.Ephemeris.Repositories_Old.IncomeSheetRepository
+namespace Temperance.Ephemeris.Repositories.Financials.Interfaces
 {
     public interface IIncomeSheetRepository
     {

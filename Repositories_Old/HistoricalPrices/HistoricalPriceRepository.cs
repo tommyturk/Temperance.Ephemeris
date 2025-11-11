@@ -6,7 +6,7 @@ using System.Data;
 using Temperance.Ephemeris.Models.BackFill;
 using Temperance.Ephemeris.Models.Prices;
 using Temperance.Ephemeris.Repositories_Old.Securities;
-using Temperance.Utilities.Helpers;
+using Temperance.Ephemeris.ModelsHelpers;
 
 namespace Temperance.Ephemeris.Repositories_Old.HistoricalPrices
 {

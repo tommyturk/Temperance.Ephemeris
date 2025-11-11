@@ -1,11 +1,9 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-using System;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Temperance.Utilities.Helpers
+namespace Temperance.Ephemeris.Utilities.Helpers
 {
 	public class SqlHelper : ISqlHelper
 	{

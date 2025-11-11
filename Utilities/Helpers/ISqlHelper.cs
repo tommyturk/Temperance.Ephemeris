@@ -1,4 +1,4 @@
-﻿namespace Temperance.Utilities.Helpers
+﻿namespace Temperance.Ephemeris.Utilities.Helpers
 {
     public interface ISqlHelper
     {

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Temperance.Ephemeris.Models.Prices;
-using Temperance.Utilities.Helpers;
+using Temperance.Ephemeris.Utilities.Helpers;
 
 namespace Temperance.Ephemeris.Repositories.Prices
 {

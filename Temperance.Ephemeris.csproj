@@ -16,24 +16,27 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Repositories_Old\**" />
+	  <EmbeddedResource Remove="Repositories_Old\**" />
+	  <None Remove="Repositories_Old\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include=".github\workflows\publish.yml" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<Folder Include="Models\Agora\" />
 		<Folder Include="Models\Constellations\" />
-		<Folder Include="Models\Indicators\" />
 		<Folder Include="Models\TechnicalIndicator\" />
 		<Folder Include="Models\Trading\" />
 		<Folder Include="Repositories\Agora\" />
 		<Folder Include="Repositories\Conductor\" />
 		<Folder Include="Repositories\Constellations\" />
-		<Folder Include="Repositories\Historical\" />
 		<Folder Include="Repositories\Indicators\" />
 		<Folder Include="Repositories\Ludus\" />
 		<Folder Include="Repositories\TechnicalIndicators\" />
 		<Folder Include="Repositories\Trading\" />
-		<Folder Include="Repositories_Old\BalanceSheet\" />
 		<Folder Include="Services\Agora\" />
 		<Folder Include="Services\BackFill\" />
 		<Folder Include="Services\Conductor\" />

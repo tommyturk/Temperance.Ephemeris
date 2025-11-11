@@ -1,4 +1,4 @@
-﻿namespace Temperance.Utilities.Common
+﻿namespace Temperance.Ephemeris.Utilities.Common
 {
     public interface IStatusUpdateSender
     {

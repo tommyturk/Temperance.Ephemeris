@@ -1,6 +1,6 @@
-﻿using Temperance.Delphi.Models.Indicators;
+﻿using Temperance.Ephemeris.Models.Indicators;
 
-namespace Temperance.Ephemeris.Repositories_Old.IndicatorRepository
+namespace Temperance.Ephemeris.Repositories.Financials.Interfaces
 {
     public interface IIndicatorRepository
     {

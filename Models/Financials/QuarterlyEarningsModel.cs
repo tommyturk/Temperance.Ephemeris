@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Temperance.Utilities.Extensions;
+using Temperance.Ephemeris.Utilities.Extensions;
 
 namespace Temperance.Ephemeris.Models.Financials
 {

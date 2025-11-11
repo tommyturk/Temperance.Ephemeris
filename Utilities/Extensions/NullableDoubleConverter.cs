@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Temperance.Utilities.Extensions
+namespace Temperance.Ephemeris.Utilities.Extensions
 {
     public class NullableDoubleConverter : JsonConverter<double?>
     {

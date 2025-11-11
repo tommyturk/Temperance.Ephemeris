@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using Temperance.Delphi.Models.Securities.IncomeSheet;
+using Temperance.Ephemeris.Models.Financials;
+using Temperance.Ephemeris.Repositories.Financials.Interfaces;
 
-namespace Temperance.Ephemeris.Repositories_Old.IncomeSheetRepository
+namespace Temperance.Ephemeris.Repositories.Financials.Implementations
 {
     public class IncomeSheetRepository : IIncomeSheetRepository
     {
