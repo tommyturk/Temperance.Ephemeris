@@ -28,17 +28,17 @@
 		<Folder Include="Repositories\Agora\" />
 		<Folder Include="Repositories\Conductor\" />
 		<Folder Include="Repositories\Constellations\" />
+		<Folder Include="Repositories\Financials\" />
 		<Folder Include="Repositories\Historical\" />
 		<Folder Include="Repositories\Indicators\" />
 		<Folder Include="Repositories\Ludus\" />
 		<Folder Include="Repositories\TechnicalIndicators\" />
 		<Folder Include="Repositories\Trading\" />
-		<Folder Include="Repositories_Old\BalanceSheet\" />
 		<Folder Include="Services\Agora\" />
-		<Folder Include="Services\BackFill\" />
 		<Folder Include="Services\Conductor\" />
 		<Folder Include="Services\Constellations\" />
 		<Folder Include="Services\Financials\" />
+		<Folder Include="Services\Historical\" />
 		<Folder Include="Services\Indicators\" />
 		<Folder Include="Services\Ludus\" />
 		<Folder Include="Services\TechnicalIndicators\" />
@@ -48,7 +48,6 @@
 	<ItemGroup>
 	  <PackageReference Include="Dapper" Version="2.1.66" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
 </Project>
