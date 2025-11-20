@@ -2,5 +2,6 @@
 {
     public interface ISecurityMasterRepsotory
     {
+        Task<DateTime?> GetSecurityIpoDate(string symbol);
     }
 }

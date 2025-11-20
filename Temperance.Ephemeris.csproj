@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Authors>Temperance</Authors>
 		<Company>Temperance</Company>
 		<Description>Core Data Models</Description>
@@ -41,7 +41,6 @@
 		<Folder Include="Services\BackFill\" />
 		<Folder Include="Services\Conductor\" />
 		<Folder Include="Services\Constellations\" />
-		<Folder Include="Services\Financials\" />
 		<Folder Include="Services\Indicators\" />
 		<Folder Include="Services\Ludus\" />
 		<Folder Include="Services\TechnicalIndicators\" />
