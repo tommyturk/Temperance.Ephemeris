@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using Temperance.Ephemeris.Models.BackFill;
 using Temperance.Ephemeris.Models.Prices;
+using Temperance.Ephemeris.Repositories.Financials.Interfaces;
 using Temperance.Ephemeris.Repositories.Prices.Interfaces;
 using Temperance.Ephemeris.Utilities.Helpers;
 
@@ -12,10 +13,12 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
     {
         private readonly string _historicalPriceConnectionString;
         private readonly ISqlHelper _sqlHelper;
-        public HistoricalPriceRepository(string historicalPriceConnectionString, ISqlHelper sqlHelper)
+        private readonly ISecurityOverviewRepository _securitiesOverviewRepository;
+        public HistoricalPriceRepository(string historicalPriceConnectionString, ISqlHelper sqlHelper, ISecurityOverviewRepository securityOverviewRepository)
         {
             _historicalPriceConnectionString = historicalPriceConnectionString;
             _sqlHelper = sqlHelper;
+            _securitiesOverviewRepository = securityOverviewRepository;
         }
 
         public async Task<List<PriceModel>> GetAllHistoricalPrices(string symbol, string interval, DateTime? startDate, DateTime? endDate)
@@ -100,7 +103,7 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
 
                 Console.WriteLine($"Processing batch {i / batchSize + 1} with {batch.Count} records for symbol {symbol}.");
 
-                var batchSuccess = await InsertBatchPriceRecords(securityId, batch, timeInterval);
+                var batchSuccess = await InsertBatchPriceRecords(batch, timeInterval);
                 success &= batchSuccess;
 
                 if (!batchSuccess)
