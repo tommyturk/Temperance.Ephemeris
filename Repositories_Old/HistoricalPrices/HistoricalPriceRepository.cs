@@ -185,26 +185,7 @@ namespace Temperance.Ephemeris.Repositories_Old.HistoricalPrices
             return success;
         }
 
-        public async Task<bool> UpdateHistoricalDailyPrices(List<PriceModel> prices, string symbol)
-        {
-            var success = true;
-            const int batchSize = 5000;
-            Console.WriteLine($"Starting update process for symbol {symbol} with {prices.Count} prices at {DateTime.UtcNow}");
-            var securityId = await _securitiesOverviewRepository.GetSecurityId(symbol);
-            for (int i = 0; i < prices.Count; i += batchSize)
-            {
-                var batch = prices.Skip(i).Take(batchSize).ToList();
-                Console.WriteLine($"Processing batch {i / batchSize + 1} with {batch.Count} records for symbol {symbol}.");
-                var batchSuccess = await InsertBatchPriceRecords(securityId, batch, "1d");
-                success &= batchSuccess;
-                if (!batchSuccess)
-                {
-                    Console.WriteLine($"Batch {i / batchSize + 1} failed for symbol {symbol}.");
-                }
-            }
-            Console.WriteLine($"Update process for symbol {symbol} completed at {DateTime.UtcNow}. Success: {success}");
-            return success;
-        }
+        
 
         public async Task<List<PriceModel>> GetHistoricalPricesForMonth(string symbol, string timeInterval, DateTime startDate, DateTime endDate)
         {
@@ -508,33 +489,7 @@ namespace Temperance.Ephemeris.Repositories_Old.HistoricalPrices
             }
         }
 
-        public async Task UpdateSecurityDataCoverage(string symbol, string interval, string type, int year, int month, bool success)
-        {
-            var checkIfExists = await CheckCoverageExistsAsync(symbol, interval, type, year, month);
-            if (checkIfExists)
-                return;
-
-            using (var connection = new SqlConnection(_historicalPriceConnectionString))
-            {
-                await connection.OpenAsync();
-
-                var query = "INSERT INTO [Historical].[BackFill].[SecurityDataCoverage] " +
-                            "(Symbol, Interval, Type, Year, Month, Success) " +
-                            "VALUES (@Symbol, @Interval, @Type, @Year, @Month, @Success)";
-
-                var result = await connection.ExecuteAsync(query, new
-                {
-                    Symbol = symbol,
-                    Interval = interval,
-                    Type = type,
-                    Year = year,
-                    Month = month,
-                    Success = success
-                });
-
-                Console.WriteLine($"{result}: Updated data coverage for {symbol} with interval {interval} for {year}-{month}. Success: {success}");
-            }
-        }
+        
 
         private async Task<bool> CheckCoverageExistsAsync(string symbol, string interval, string type, int year, int month)
         {
