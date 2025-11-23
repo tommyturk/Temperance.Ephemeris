@@ -253,7 +253,7 @@ namespace Temperance.Ephemeris.Repositories_Old.HistoricalPrices
 
 
                         using var dataTable = new DataTable();
-
+                         
                         dataTable.Columns.Add("SecurityID", typeof(int));
                         dataTable.Columns.Add("Symbol", typeof(string));
                         dataTable.Columns.Add("Timestamp", typeof(DateTime));

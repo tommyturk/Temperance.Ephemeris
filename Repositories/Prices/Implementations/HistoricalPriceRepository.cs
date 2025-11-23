@@ -85,6 +85,34 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
             return data.ToList();
         }
 
+        public async Task<bool> UpdateHistoricalIntradayPrices(List<PriceModel> prices, string symbol, string timeInterval)
+        {
+            var success = true;
+            const int batchSize = 5000;
+
+            Console.WriteLine($"Starting update process for symbol {symbol} with {prices.Count} prices at {DateTime.UtcNow}");
+
+            var securityId = await _securitiesOverviewRepository.GetSecurityId(symbol);
+
+            for (int i = 0; i < prices.Count; i += batchSize)
+            {
+                var batch = prices.Skip(i).Take(batchSize).ToList();
+
+                Console.WriteLine($"Processing batch {i / batchSize + 1} with {batch.Count} records for symbol {symbol}.");
+
+                var batchSuccess = await InsertBatchPriceRecords(securityId, batch, timeInterval);
+                success &= batchSuccess;
+
+                if (!batchSuccess)
+                {
+                    Console.WriteLine($"Batch {i / batchSize + 1} failed for symbol {symbol}.");
+                }
+            }
+
+            Console.WriteLine($"Update process for symbol {symbol} completed at {DateTime.UtcNow}. Success: {success}");
+            return success;
+        }
+
         public async Task<bool> UpdateHistoricalDailyPrices(List<PriceModel> prices, string symbol)
         {
             var success = true;
@@ -105,7 +133,7 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
             return success;
         }
 
-        public async Task<IEnumerable<SecurityDataCoverageModel>> GetMonthlyDataCoverageAsync(string symbol, string interval)
+        public async Task<IEnumerable<SecurityDataCoverageModel>> GetMonthlyDataCoverageAsync(string symbol, string interval, DateTime? startDate, DateTime? endDate)
         {
             using (var connection = new SqlConnection(_historicalPriceConnectionString))
             {
@@ -122,8 +150,11 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
                             Type,
                             YEAR([Timestamp]) AS [Year],
                             MONTH([Timestamp]) AS [Month]
-                        FROM {tableName}
-                        GROUP BY
+                        FROM {tableName}";
+                sql += startDate.HasValue ? " WHERE [Timestamp] >= @StartDate" : "";
+                sql += endDate.HasValue ? (startDate.HasValue ? " AND " : " WHERE ") + " [Timestamp] <= @EndDate" : "";
+                sql += @"
+                GROUP BY
                             YEAR([Timestamp]),
                             MONTH([Timestamp])
                         ORDER BY
