@@ -262,5 +262,16 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
                 return true;
             }
         }
+
+        public async Task<DateTime?> GetFirstDataPointDate(string symbol, string interval)
+        {
+            var tableName = _sqlHelper.SanitizeTableName(symbol, interval);
+            string query = $@"SELECT MIN(Timestamp) 
+                              FROM [Historical].[Prices].{tableName}
+                              WHERE Symbol = @Symbol AND TimeInterval = @TimeInterval";
+            using var connection = new SqlConnection(_historicalPriceConnectionString);
+            var parameters = new { Symbol = symbol, TimeInterval = interval };
+            return await connection.ExecuteScalarAsync<DateTime?>(query, parameters);
+        }
     }
 }

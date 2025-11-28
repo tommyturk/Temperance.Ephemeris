@@ -12,5 +12,6 @@ namespace Temperance.Ephemeris.Repositories.Prices.Interfaces
         Task<IEnumerable<SecurityDataCoverageModel>> GetMonthlyDataCoverageAsync(string symbol, string interval, DateTime? startDate, DateTime? endDate);
         Task<bool> UpdateHistoricalIntradayPrices(List<PriceModel> prices, string symbol, string timeInterval);
         Task<bool> UpdateHistoricalDailyPrices(List<PriceModel> prices, string symbol);
+        Task<DateTime?> GetFirstDataPointDate(string symbol, string interval);
     }
 }

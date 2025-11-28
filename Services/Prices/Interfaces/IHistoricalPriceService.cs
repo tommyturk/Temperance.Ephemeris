@@ -7,5 +7,6 @@ namespace Temperance.Ephemeris.Services.Prices.Interfaces
         Task<List<PriceModel>> GetAllHistoricalPrices(string symbol, string interval, DateTime? startDate, DateTime? endDate);
         Task<bool> SecurityDataCheck(string symbol, string interval, DateTime startDate);
         Task<List<PriceModel>> GetMonthlyDataCoverage(string symbol, string interval, DateTime startDate, DateTime endDate);
+        Task<DateTime?> GetFirstDataPointDate(string symbol, string interval);
     }
 }

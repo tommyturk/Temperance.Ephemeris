@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Temperance.Ephemeris.Models.Financials;
 using Temperance.Ephemeris.Repositories.Financials.Interfaces;
 
 namespace Temperance.Ephemeris.Repositories.Financials.Implementations
@@ -19,6 +20,14 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
             var query = $@"SELECT IpoDate FROM [TradingBotDb].[Financials].[SecuritiesMaster]
                 WHERE Symbol == @Symbol";
             return await connection.ExecuteScalarAsync<DateTime?>(query);
+        }
+
+        public async Task<List<SecurityMaster>> GetAll()
+        {
+            using var connection = new SqlConnection(_connectionString);
+            var query = $@"SELECT * FROM [TradingBotDb].[Financials].[SecuritiesMaster]";
+            var result = await connection.QueryAsync<SecurityMaster>(query);
+            return result.ToList();
         }
     }
 }

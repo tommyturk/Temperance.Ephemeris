@@ -1,4 +1,5 @@
-﻿using Temperance.Ephemeris.Repositories.Financials.Interfaces;
+﻿using Temperance.Ephemeris.Models.Financials;
+using Temperance.Ephemeris.Repositories.Financials.Interfaces;
 using Temperance.Ephemeris.Services.Financials.Interfaces;
 
 namespace Temperance.Ephemeris.Services.Financials.Implementation
@@ -15,6 +16,11 @@ namespace Temperance.Ephemeris.Services.Financials.Implementation
         public async Task<DateTime?> GetSecurityIpoDate(string symbol)
         {
             return await _securityMasterRepository.GetSecurityIpoDate(symbol);
+        }
+
+        public async Task<List<SecurityMaster>> GetAll()
+        {
+            return await _securityMasterRepository.GetAll();
         }
     }
 }
