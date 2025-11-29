@@ -1,4 +1,6 @@
-﻿using Temperance.Ephemeris.Services.Trading.Interfaces;
+﻿using Temperance.Ephemeris.Models.Trading;
+using Temperance.Ephemeris.Repository.Trading.Interfaces;
+using Temperance.Ephemeris.Services.Trading.Interfaces;
 
 namespace Temperance.Ephemeris.Services.Trading.Implementations
 {

@@ -1,4 +1,4 @@
-﻿using Temperance.Delphi.Models.Trading;
+﻿using Temperance.Ephemeris.Models.Trading;
 
 namespace Temperance.Ephemeris.Services.Trading.Interfaces
 {
