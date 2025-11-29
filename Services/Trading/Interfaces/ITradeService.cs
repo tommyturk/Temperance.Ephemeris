@@ -1,0 +1,13 @@
+﻿using Temperance.Delphi.Models.Trading;
+
+namespace Temperance.Ephemeris.Services.Trading.Interfaces
+{
+    public interface ITradeService
+    {
+        Task<int> SaveTradeAsync(Trade trade);
+        Task<int> ExecuteOrderAsync(Order order);
+        Task<int> UpdatePositionAsync(Position position);
+        Task<int> LogStrategyAsync(StrategyLog log);
+        Task CheckTradeExitsAsync();
+    }
+}
