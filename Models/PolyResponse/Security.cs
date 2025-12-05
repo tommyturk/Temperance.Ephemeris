@@ -7,10 +7,14 @@ namespace Temperance.Ephemeris.Models.PolyResponse
         public class SecurityOverviewResponseModel : SecurityOverviewModel { }
 
         public class QuarterlyEarningsResponseModel : QuarterlyEarningsModel { }
-    
+
+        public class AnnualEarningsResponseModel : AnnualEarningsModel { }
+
+        public class EarningsResponseModel : EarningsModel { }
+
         public class IncomeSheetResponseModel : IncomeSheetModel { }    
 
-        public class IBalanceSheetResponseModel : BalanceSheetModel { }
+        public class BalanceSheetResponseModel : BalanceSheetModel { }
     }
 
 }
