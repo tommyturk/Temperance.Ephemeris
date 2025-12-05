@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Temperance.Ephemeris.Models.Prices;
+using Temperance.Ephemeris.Repositories.Prices.Implementations;
 using Temperance.Ephemeris.Repositories.Prices.Interfaces;
 using Temperance.Ephemeris.Services.Prices.Interfaces;
 
