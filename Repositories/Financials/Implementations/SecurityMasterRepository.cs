@@ -5,11 +5,11 @@ using Temperance.Ephemeris.Repositories.Financials.Interfaces;
 
 namespace Temperance.Ephemeris.Repositories.Financials.Implementations
 {
-    public class SecurityMasterRepsotory : ISecurityMasterRepsotory
+    public class SecurityMasterRepository : ISecurityMasterRepsotory
     {
         private readonly string _connectionString;
         
-        public SecurityMasterRepsotory(string connectionString)
+        public SecurityMasterRepository(string connectionString)
         {
             _connectionString = connectionString;
         }

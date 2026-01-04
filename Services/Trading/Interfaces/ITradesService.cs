@@ -2,7 +2,7 @@
 
 namespace Temperance.Ephemeris.Services.Trading.Interfaces
 {
-    public interface ITradeService
+    public interface ITradesService
     {
         Task<int> SaveTradeAsync(Trade trade);
         Task<int> ExecuteOrderAsync(Order order);

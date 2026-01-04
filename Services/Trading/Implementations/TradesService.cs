@@ -4,7 +4,7 @@ using Temperance.Ephemeris.Services.Trading.Interfaces;
 
 namespace Temperance.Ephemeris.Services.Trading.Implementations
 {
-    public class TradesService : ITradeService
+    public class TradesService : ITradesService
     {
         private readonly ITradeRepository _tradeRepository;
         public TradesService(ITradeRepository tradeRepository)

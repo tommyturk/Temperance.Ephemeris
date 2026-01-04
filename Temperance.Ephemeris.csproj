@@ -27,17 +27,14 @@
 	
 	<ItemGroup>
 		<Folder Include="Models\Agora\" />
-		<Folder Include="Models\Constellations\" />
 		<Folder Include="Models\TechnicalIndicator\" />
 		<Folder Include="Repositories\Agora\" />
 		<Folder Include="Repositories\Conductor\" />
-		<Folder Include="Repositories\Constellations\" />
 		<Folder Include="Repositories\Indicators\" />
 		<Folder Include="Repositories\TechnicalIndicators\" />
 		<Folder Include="Services\Agora\" />
 		<Folder Include="Services\BackFill\" />
 		<Folder Include="Services\Conductor\" />
-		<Folder Include="Services\Constellations\" />
 		<Folder Include="Services\Indicators\" />
 		<Folder Include="Services\Ludus\" />
 		<Folder Include="Services\TechnicalIndicators\" />
