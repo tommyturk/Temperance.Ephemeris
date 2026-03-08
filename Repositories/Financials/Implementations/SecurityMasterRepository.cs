@@ -16,10 +16,11 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
 
         public async Task<DateTime?> GetSecurityIpoDate(string symbol)
         {
+            if (string.IsNullOrWhiteSpace(symbol)) return null;
             using var connection = new SqlConnection(_connectionString);
             var query = $@"SELECT IpoDate FROM [TradingBotDb].[Financials].[SecurityMaster]
-                WHERE Symbol = @Symbol";
-            return await connection.ExecuteScalarAsync<DateTime?>(query);
+                WHERE [Symbol] = @Symbol";
+            return await connection.ExecuteScalarAsync<DateTime?>(query, new { Symbol = symbol });
         }
 
         public async Task<List<SecurityMaster>> GetAll()
