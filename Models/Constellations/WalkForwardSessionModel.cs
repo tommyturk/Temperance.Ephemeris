@@ -7,8 +7,8 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; } = string.Empty;
-        public double InitialCapital { get; set; }
-        public double CurrentCapital { get; set; }
+        public decimal InitialCapital { get; set; }
+        public decimal CurrentCapital { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public int OptimizationWindowYears { get; set; }
         public int TradingWindowYears { get; set; }

@@ -8,9 +8,9 @@ namespace Temperance.Ephemeris.Models.Traiding
         public int SecurityID { get; set; }
         public string Symbol { get; set; }
         public TradeType Type { get; set; }
-        public double Price { get; set; }
-        public double Quantity { get; set; }
-        public double ProfitOrLoss { get; set; }
+        public decimal Price { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal ProfitOrLoss { get; set; }
         public string Strategy { get; set; }
         public DateTime Timestamp { get; set; }
 
