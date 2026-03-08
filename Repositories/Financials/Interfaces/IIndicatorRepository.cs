@@ -14,6 +14,8 @@ namespace Temperance.Ephemeris.Repositories.Financials.Interfaces
         Task<bool> TreasuryYieldsBackFill(TreasuryYieldsModel treasuryYieldsData);
         Task<bool> UnemploymentRateBackfill(UnemploymentRatesModel unemploymentRateData);
         Task<List<IndicatorValueSet>> GetRecentIndicatorValuesAsync(string tableName, DateTime asOfDate, int count);
+        
+        // change this return type to decimal later!
         Task<double?> GetTreasuryYieldOnDateAsync(string maturity, DateTime asOfDate);
     }
 }

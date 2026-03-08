@@ -17,7 +17,7 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
         public async Task<DateTime?> GetSecurityIpoDate(string symbol)
         {
             using var connection = new SqlConnection(_connectionString);
-            var query = $@"SELECT IpoDate FROM [TradingBotDb].[Financials].[SecuritiesMaster]
+            var query = $@"SELECT IpoDate FROM [TradingBotDb].[Financials].[SecurityMaster]
                 WHERE Symbol == @Symbol";
             return await connection.ExecuteScalarAsync<DateTime?>(query);
         }
@@ -25,7 +25,7 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
         public async Task<List<SecurityMaster>> GetAll()
         {
             using var connection = new SqlConnection(_connectionString);
-            var query = $@"SELECT * FROM [TradingBotDb].[Financials].[SecuritiesMaster]";
+            var query = $@"SELECT * FROM [TradingBotDb].[Financials].[SecurityMaster]";
             var result = await connection.QueryAsync<SecurityMaster>(query);
             return result.ToList();
         }
