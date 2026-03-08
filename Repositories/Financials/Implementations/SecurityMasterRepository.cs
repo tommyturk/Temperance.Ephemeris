@@ -18,7 +18,7 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
         {
             using var connection = new SqlConnection(_connectionString);
             var query = $@"SELECT IpoDate FROM [TradingBotDb].[Financials].[SecurityMaster]
-                WHERE Symbol == @Symbol";
+                WHERE Symbol = @Symbol";
             return await connection.ExecuteScalarAsync<DateTime?>(query);
         }
 
