@@ -207,5 +207,34 @@ namespace Temperance.Ephemeris.Repositories.Financials.Implementations
                 throw;
             }
         }
+
+        // Add these methods to your existing IndicatorRepository class
+
+        public async Task<List<IndicatorValueSet>> GetRecentIndicatorValuesAsync(string tableName, DateTime asOfDate, int count)
+        {
+            // A strict switch statement or allowlist can be added here to prevent SQL injection 
+            // if 'tableName' ever comes from an untrusted source.
+            using var connection = CreateConnection();
+            var sql = $@"
+                SELECT TOP (@Count) [Date], [Value]
+                FROM [TradingBotDb].[Indicators].[{tableName}]
+                WHERE [Date] <= @AsOfDate
+                ORDER BY [Date] DESC;";
+
+            var result = await connection.QueryAsync<IndicatorValueSet>(sql, new { Count = count, AsOfDate = asOfDate });
+            return result.ToList();
+        }
+
+        public async Task<double?> GetTreasuryYieldOnDateAsync(string maturity, DateTime asOfDate)
+        {
+            using var connection = CreateConnection();
+            var sql = @"
+                SELECT TOP 1 [Value]
+                FROM [Indicators].[Treasury_Yields]
+                WHERE [Maturity] = @Maturity AND [Date] <= @AsOfDate
+                ORDER BY [Date] DESC;";
+
+            return await connection.QueryFirstOrDefaultAsync<double?>(sql, new { Maturity = maturity, AsOfDate = asOfDate });
+        }
     }
 }

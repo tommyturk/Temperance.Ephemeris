@@ -16,6 +16,5 @@ namespace Temperance.Ephemeris.Services.Financials.Implementation
         {
             return await _securityOverviewRepository.GetSecurityId(symbol);
         }
-
     }
 }
