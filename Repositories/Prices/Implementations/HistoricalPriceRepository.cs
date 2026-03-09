@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using System.Data;
 using Temperance.Ephemeris.Models.BackFill;
 using Temperance.Ephemeris.Models.Prices;
@@ -11,10 +12,13 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
 {
     public class HistoricalPriceRepository : IHistoricalPriceRepository
     {
+        private readonly ILogger<HistoricalPriceRepository> _logger;
         private readonly string _historicalPriceConnectionString;
         private readonly ISqlHelper _sqlHelper;
         private readonly ISecurityOverviewRepository _securitiesOverviewRepository;
-        public HistoricalPriceRepository(string historicalPriceConnectionString, ISqlHelper sqlHelper, ISecurityOverviewRepository securityOverviewRepository)
+
+        public HistoricalPriceRepository(ILogger<HistoricalPriceRepository> logger, 
+            string historicalPriceConnectionString, ISqlHelper sqlHelper, ISecurityOverviewRepository securityOverviewRepository)
         {
             _historicalPriceConnectionString = historicalPriceConnectionString;
             _sqlHelper = sqlHelper;
@@ -136,46 +140,50 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
             return success;
         }
 
-        public async Task<IEnumerable<SecurityDataCoverageModel>> GetMonthlyDataCoverageAsync(string symbol, string interval, DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<SecurityDataCoverageModel>> GetMonthlyDataCoverageAsync(
+            string symbol,
+            string interval,
+            DateTime? startDate,
+            DateTime? endDate)
         {
-            using (var connection = new SqlConnection(_historicalPriceConnectionString))
-            {
-                await connection.OpenAsync();
+            using var connection = new SqlConnection(_historicalPriceConnectionString);
 
-                var tableName = _sqlHelper.SanitizeTableName(symbol, interval);
+            var tableName = _sqlHelper.SanitizeTableName(symbol, interval);
+            await _sqlHelper.EnsureTableExists(tableName);
 
-                await _sqlHelper.EnsureTableExists(tableName);
+            var sql = $@"
+                SELECT
+                    [Symbol],
+                    [TimeInterval],
+                    YEAR([Timestamp]) AS [Year],
+                    MONTH([Timestamp]) AS [Month]
+                FROM {tableName}
+                WHERE 1=1";
 
-                var sql = $@"
-                        SELECT
-                            Symbol,
-                            TimeInterval,
-                            YEAR([Timestamp]) AS [Year],
-                            MONTH([Timestamp]) AS [Month]
-                        FROM {tableName}";
-                sql += startDate.HasValue ? " WHERE [Timestamp] >= @StartDate" : "";
-                sql += endDate.HasValue ? (startDate.HasValue ? " AND " : " WHERE ") + " [Timestamp] <= @EndDate" : "";
-                sql += @"
+            if (startDate.HasValue) sql += " AND [Timestamp] >= @StartDate";
+            if (endDate.HasValue) sql += " AND [Timestamp] <= @EndDate";
+
+            sql += @"
                 GROUP BY
-                            Symbol,
-                            TimeInterval,
-                            YEAR([Timestamp]) AS [Year],
-                            MONTH([Timestamp]) AS [Month]
-                        ORDER BY
-                            [Year], [Month];";
-                try
+                    [Symbol],
+                    [TimeInterval],
+                    YEAR([Timestamp]),
+                    MONTH([Timestamp])
+                ORDER BY
+                    [Year] ASC, [Month] ASC;";
+
+            try
+            {
+                return await connection.QueryAsync<SecurityDataCoverageModel>(sql, new
                 {
-                    return await connection.QueryAsync<SecurityDataCoverageModel>(sql, new
-                    {
-                        StartDate = startDate,
-                        EndDate = endDate
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error querying data coverage for {tableName}: {ex.Message}");
-                    return Enumerable.Empty<SecurityDataCoverageModel>();
-                }
+                    StartDate = startDate,
+                    EndDate = endDate
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Analytical Error: Failed to retrieve data coverage for {TableName}", tableName);
+                return Enumerable.Empty<SecurityDataCoverageModel>();
             }
         }
 
@@ -260,7 +268,7 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
                             price.Volume,
                             price.TimeInterval
                         );
-                
+
                 await bulkCopy.WriteToServerAsync(dataTable);
 
                 Console.WriteLine($"Successfully bulk inserted {prices.Count} records into {tableName}.");
