@@ -149,8 +149,7 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
                 var sql = $@"
                         SELECT
                             Symbol,
-                            Interval,
-                            Type,
+                            TimeInterval,
                             YEAR([Timestamp]) AS [Year],
                             MONTH([Timestamp]) AS [Month]
                         FROM {tableName}";
@@ -158,13 +157,19 @@ namespace Temperance.Ephemeris.Repositories.Prices.Implementations
                 sql += endDate.HasValue ? (startDate.HasValue ? " AND " : " WHERE ") + " [Timestamp] <= @EndDate" : "";
                 sql += @"
                 GROUP BY
-                            YEAR([Timestamp]),
-                            MONTH([Timestamp])
+                            Symbol,
+                            TimeInterval,
+                            YEAR([Timestamp]) AS [Year],
+                            MONTH([Timestamp]) AS [Month]
                         ORDER BY
                             [Year], [Month];";
                 try
                 {
-                    return await connection.QueryAsync<SecurityDataCoverageModel>(sql, new { TableName = tableName });
+                    return await connection.QueryAsync<SecurityDataCoverageModel>(sql, new
+                    {
+                        StartDate = startDate,
+                        EndDate = endDate
+                    });
                 }
                 catch (Exception ex)
                 {
